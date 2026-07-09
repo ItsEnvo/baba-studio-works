@@ -1,121 +1,68 @@
 import React from 'react';
+import { site, stats, equipment } from '../content';
 
 const About: React.FC = () => {
-  const stats = [
-    { number: '500+', label: 'Songs Recorded' },
-    { number: '100+', label: 'Music Videos' },
-    { number: '50+', label: 'Artists Worked With' },
-    { number: '5+', label: 'Years Experience' }
-  ];
-
-  const equipment = [
-    'Neumann U87 Microphones',
-    'SSL Mixing Console',
-    'Pro Tools HDX System',
-    'Genelec Monitoring',
-    'Vintage Analog Gear',
-    'Acoustic Treatment'
-  ];
+  const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section id="about" className="section-padding bg-black">
+    <section id="about" className="section-padding border-t border-white/10">
       <div className="container-custom">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <div>
-            <h2 className="text-5xl md:text-6xl font-display font-black mb-8 text-white">
-              About The Baba
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />04 — The Studio</p>
+            <h2 className="section-title text-4xl md:text-6xl max-w-2xl">
+              A production house built for the work.
             </h2>
-            <div className="space-y-6 text-lg text-gray-300 leading-relaxed">
+            <div className="mt-8 space-y-5 text-lg text-white/60 leading-relaxed max-w-xl">
               <p>
-                Located in the heart of Fort Lauderdale, The Baba is more than just a recording studio—
-                it's where musical dreams become reality. Our state-of-the-art facility combines 
-                cutting-edge technology with an atmosphere designed to inspire creativity.
+                The Baba is a recording studio and video production house in {site.city}. We bring
+                the same standard of craft to a first single as we do to a label album or a brand campaign.
               </p>
               <p>
-                We specialize in working with both emerging local artists and established acts, 
-                providing the same level of professional service that major labels expect. From 
-                intimate acoustic sessions to full band productions, we have the equipment and 
-                expertise to bring your vision to life.
-              </p>
-              <p>
-                Our team doesn't just record music—we create complete artistic experiences. 
-                Whether you need a single tracked and mixed, a full album produced, or a 
-                cinematic music video that tells your story, we're your creative partners 
-                every step of the way.
+                Track it, mix it, master it, shoot it — handled in one place, by a team that treats
+                every project like it matters. Because it does.
               </p>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-gold-400 mb-2">
-                    {stat.number}
+            {stats.show && (
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 mt-12">
+                {stats.items.map((s) => (
+                  <div key={s.label} className="bg-noir-950 p-6">
+                    <div className="font-display text-3xl md:text-4xl font-semibold text-paper">{s.number}</div>
+                    <div className="text-white/45 text-sm mt-1">{s.label}</div>
                   </div>
-                  <div className="text-gray-400 text-sm">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          {/* Right Content */}
-          <div>
-            {/* Studio Image Placeholder */}
-            <div className="relative mb-8">
-              <div className="aspect-square rounded-2xl overflow-hidden bg-gray-800">
-                <img
-                  src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&h=600&fit=crop"
-                  alt="The Baba Recording Studio"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-tr from-gold-400/20 to-transparent rounded-2xl"></div>
+          <div className="lg:col-span-5">
+            <div className="aspect-[4/5] overflow-hidden border border-white/10 grayscale">
+              <img
+                src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=900&h=1100&fit=crop"
+                alt="The Baba recording studio"
+                className="w-full h-full object-cover"
+              />
             </div>
 
-            {/* Equipment List */}
-            <div className="studio-card">
-              <h3 className="text-2xl font-bold text-white mb-6">Premium Equipment</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {equipment.map((item, index) => (
-                  <div key={index} className="flex items-center">
-                    <svg className="w-5 h-5 text-gold-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span className="text-gray-300">{item}</span>
-                  </div>
+            <div className="mt-8">
+              <p className="eyebrow mb-5">Equipment</p>
+              <div className="border-t border-white/10">
+                {equipment.items.map((e) => (
+                  <div key={e} className="py-3 border-b border-white/10 text-white/65 text-sm">{e}</div>
                 ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-20">
-          <div className="studio-card max-w-4xl mx-auto">
-            <h3 className="text-3xl font-bold text-white mb-4">
-              Ready to Experience The Baba Difference?
-            </h3>
-            <p className="text-xl text-gray-300 mb-8">
-              Whether you're a local artist starting your journey or an established act looking for 
-              that next-level sound, we're here to make it happen.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <button 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-primary text-lg px-8 py-3"
-              >
-                Book a Session
-              </button>
-              <button 
-                onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-secondary text-lg px-8 py-3"
-              >
-                View Pricing
-              </button>
-            </div>
+        <div className="mt-24 border-t border-white/10 pt-16 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <h3 className="section-title text-3xl md:text-5xl max-w-2xl">
+            Have a project worth doing right?
+          </h3>
+          <div className="flex gap-4 shrink-0">
+            <button onClick={() => go('contact')} className="btn-primary">Start a Project</button>
+            <button onClick={() => go('pricing')} className="btn-secondary">Pricing</button>
           </div>
         </div>
       </div>

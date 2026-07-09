@@ -7,45 +7,32 @@ export default {
   theme: {
     extend: {
       colors: {
-        gold: {
-          300: '#ffd700',
-          400: '#ffb700',
-          500: '#ff8c00',
-          600: '#cc6600',
+        // Near-black cinematic base + warm off-white text
+        noir: {
+          950: '#0a0a0a',
+          900: '#0e0e0e',
+          800: '#151515',
+          700: '#1c1c1c',
+          600: '#262626',
         },
-        amber: {
-          300: '#fbbf24',
-          400: '#f59e0b',
-          500: '#d97706',
-          600: '#b45309',
-        },
+        paper: '#f4f3ef', // warm off-white
       },
       fontFamily: {
-        'display': ['Bebas Neue', 'Arial Black', 'sans-serif'],
+        'display': ['Archivo', 'Helvetica Neue', 'Arial', 'sans-serif'],
         'body': ['Inter', 'system-ui', 'sans-serif'],
       },
-      backgroundImage: {
-        'studio-gradient': 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
-        'gold-gradient': 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)',
+      letterSpacing: {
+        widest2: '0.32em',
       },
       animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.6s ease-out',
-        'glow': 'glow 2s ease-in-out infinite alternate',
+        'fade-up': 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both',
+        'fade-in': 'fadeIn 1s ease-out both',
+        'marquee': 'marquee 40s linear infinite',
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        glow: {
-          '0%': { boxShadow: '0 0 20px rgba(255, 215, 0, 0.3)' },
-          '100%': { boxShadow: '0 0 30px rgba(255, 215, 0, 0.5)' },
-        },
+        fadeUp: { '0%': { transform: 'translateY(24px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } },
       },
     },
   },

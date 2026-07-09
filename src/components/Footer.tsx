@@ -1,157 +1,80 @@
 import React from 'react';
+import { site } from '../content';
+
+const QUICK = [
+  { name: 'Services', id: 'services' },
+  { name: 'Work', id: 'portfolio' },
+  { name: 'Gallery', id: 'gallery' },
+  { name: 'Studio', id: 'about' },
+  { name: 'Pricing', id: 'pricing' },
+  { name: 'Contact', id: 'contact' },
+];
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-
-  const quickLinks = [
-    { name: 'Services', href: '#services' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'About', href: '#about' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'Contact', href: '#contact' }
-  ];
-
-  const services = [
-    'Recording Sessions',
-    'Mixing & Mastering',
-    'Music Video Production',
-    'Photography',
-    'Commercial Production',
-    'Event Coverage'
-  ];
-
-  const scrollToSection = (href: string) => {
-    const sectionId = href.replace('#', '');
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const year = new Date().getFullYear();
+  const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <footer className="bg-gray-950 border-t border-gray-800">
-      {/* Main Footer */}
-      <div className="container-custom py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Brand Section */}
-          <div className="lg:col-span-1">
-            <h3 className="text-3xl font-display font-black text-gold-400 mb-4">
-              THE BABA
-            </h3>
-            <p className="text-gray-400 mb-6 leading-relaxed">
-              Premier recording studio in Fort Lauderdale, Florida. Where sound becomes legend.
+    <footer className="border-t border-white/10 bg-noir-950">
+      <div className="container-custom py-20">
+        {/* Big closing line */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-16 border-b border-white/10">
+          <h2 className="font-display text-5xl md:text-7xl font-semibold tracking-tight text-paper">THE BABA</h2>
+          <button onClick={() => go('contact')} className="btn-primary self-start md:self-auto">Start a Project</button>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mt-16">
+          <div className="col-span-2 md:col-span-1">
+            <p className="eyebrow mb-5">Studio</p>
+            <p className="text-white/55 text-sm leading-relaxed">
+              Recording &amp; video production.<br />{site.city}.
             </p>
-            <div className="space-y-2 text-sm text-gray-400">
-              <p>📍 Fort Lauderdale, FL</p>
-              <p>📧 info@thebabafl.com</p>
-              <p>📞 (954) 555-BABA</p>
-            </div>
           </div>
 
-          {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-6">Quick Links</h4>
+            <p className="eyebrow mb-5">Index</p>
             <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => scrollToSection(link.href)}
-                    className="text-gray-400 hover:text-gold-400 transition-colors"
-                  >
-                    {link.name}
-                  </button>
+              {QUICK.map((l) => (
+                <li key={l.id}>
+                  <button onClick={() => go(l.id)} className="text-white/55 hover:text-paper transition-colors text-sm">{l.name}</button>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Services */}
           <div>
-            <h4 className="text-lg font-bold text-white mb-6">Services</h4>
-            <ul className="space-y-3">
-              {services.map((service, index) => (
-                <li key={index} className="text-gray-400 text-sm">
-                  {service}
+            <p className="eyebrow mb-5">Contact</p>
+            <ul className="space-y-3 text-sm">
+              <li><a href={site.email.href} className="text-white/55 hover:text-paper transition-colors break-all">{site.email.display}</a></li>
+              <li><a href={site.phone.href} className="text-white/55 hover:text-paper transition-colors">{site.phone.display}</a></li>
+              <li><a href={site.instagram.href} target="_blank" rel="noopener noreferrer" className="text-white/55 hover:text-paper transition-colors">{site.instagram.handle}</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="eyebrow mb-5">Hours</p>
+            <ul className="space-y-3 text-sm">
+              {site.hours.map((h) => (
+                <li key={h.day} className="flex justify-between gap-4 text-white/55">
+                  <span>{h.day}</span><span className="text-white/70">{h.time}</span>
                 </li>
               ))}
             </ul>
           </div>
-
-          {/* Contact & Social */}
-          <div>
-            <h4 className="text-lg font-bold text-white mb-6">Connect</h4>
-            <div className="space-y-4">
-              <div>
-                <p className="text-gray-400 text-sm mb-2">Follow us on Instagram</p>
-                <a
-                  href="#"
-                  className="inline-flex items-center space-x-2 text-gold-400 hover:text-gold-300 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.618 5.367 11.986 11.988 11.986 6.618 0 11.986-5.368 11.986-11.986C24.003 5.367 18.635.001 12.017.001zM8.449 16.988c-1.297 0-2.349-1.051-2.349-2.349 0-1.297 1.052-2.349 2.349-2.349 1.297 0 2.349 1.052 2.349 2.349 0 1.298-1.052 2.349-2.349 2.349zm7.718 0c-1.297 0-2.349-1.051-2.349-2.349 0-1.297 1.052-2.349 2.349-2.349 1.297 0 2.349 1.052 2.349 2.349 0 1.298-1.052 2.349-2.349 2.349z"/>
-                  </svg>
-                  <span>@thebabafl</span>
-                </a>
-              </div>
-
-              <div>
-                <h5 className="text-white font-medium mb-2">Business Hours</h5>
-                <div className="text-sm text-gray-400 space-y-1">
-                  <p>Mon - Fri: 10am - 10pm</p>
-                  <p>Saturday: 10am - 8pm</p>
-                  <p>Sunday: By appointment</p>
-                </div>
-              </div>
-
-              <div>
-                <button
-                  onClick={() => scrollToSection('#contact')}
-                  className="btn-primary w-full text-sm py-2 px-4"
-                >
-                  Book Session
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* Bottom Footer */}
-      <div className="border-t border-gray-800">
-        <div className="container-custom py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} The Baba Recording Studio. All rights reserved.
-            </div>
-            
-            <div className="flex items-center space-x-6">
-              <button
-                onClick={scrollToTop}
-                className="flex items-center space-x-2 text-gray-400 hover:text-gold-400 transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-                <span className="text-sm">Back to Top</span>
-              </button>
-              
-              <div className="text-gray-400 text-sm">
-                Made with ♥ for artists
-              </div>
-            </div>
-          </div>
+      <div className="border-t border-white/10">
+        <div className="container-custom py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/35 text-xs tracking-wide">© {year} The Baba. All rights reserved.</p>
+          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="text-white/35 hover:text-paper transition-colors text-xs tracking-widest2 uppercase flex items-center gap-2">
+            Back to top
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+          </button>
         </div>
-      </div>
-
-      {/* Floating CTA for mobile */}
-      <div className="fixed bottom-4 right-4 md:hidden z-40">
-        <button
-          onClick={() => scrollToSection('#contact')}
-          className="btn-primary px-6 py-3 rounded-full shadow-lg animate-glow"
-        >
-          Book Now
-        </button>
       </div>
     </footer>
   );

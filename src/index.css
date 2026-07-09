@@ -2,57 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
-    @apply bg-black text-white font-body;
-    background-image: radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 20%, rgba(255, 140, 0, 0.05) 0%, transparent 50%);
+    @apply bg-noir-950 text-paper font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    @apply bg-paper text-noir-950;
   }
 }
 
 @layer components {
+  /* Solid white pill — primary CTA */
   .btn-primary {
-    @apply bg-gold-gradient text-black font-semibold px-8 py-3 rounded-lg 
-           hover:shadow-lg hover:shadow-gold-500/25 transition-all duration-300 
-           transform hover:scale-105 animate-glow;
+    @apply inline-flex items-center justify-center gap-2 bg-paper text-noir-950 font-medium
+           px-7 py-3 rounded-full text-sm tracking-wide
+           transition-all duration-300 hover:bg-white hover:gap-3;
   }
-  
+
+  /* Hairline outline — secondary */
   .btn-secondary {
-    @apply border-2 border-gold-400 text-gold-400 font-semibold px-8 py-3 rounded-lg 
-           hover:bg-gold-400 hover:text-black transition-all duration-300;
+    @apply inline-flex items-center justify-center gap-2 border border-white/25 text-paper font-medium
+           px-7 py-3 rounded-full text-sm tracking-wide
+           transition-all duration-300 hover:border-white/60 hover:gap-3;
   }
-  
+
   .section-padding {
-    @apply py-20 px-6 lg:px-12;
+    @apply py-28 px-6 lg:px-12;
   }
-  
+
   .container-custom {
-    @apply max-w-7xl mx-auto;
+    @apply max-w-[88rem] mx-auto;
   }
-  
-  .text-glow {
-    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+
+  /* Small tracked uppercase label */
+  .eyebrow {
+    @apply inline-flex items-center gap-3 text-[11px] font-medium tracking-widest2 uppercase text-white/45;
   }
-  
-  .studio-card {
-    @apply bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 
-           hover:border-gold-400/50 transition-all duration-300 hover:shadow-lg 
-           hover:shadow-gold-500/10;
+
+  /* Large refined section heading */
+  .section-title {
+    @apply font-display font-semibold tracking-tight text-white leading-[0.95];
   }
-  
-  .hero-text {
-    @apply font-display text-6xl md:text-8xl lg:text-9xl font-black 
-           bg-gradient-to-r from-white via-gold-300 to-gold-500 
-           bg-clip-text text-transparent;
+
+  /* Minimal surface panel with hairline border */
+  .panel {
+    @apply bg-noir-900 border border-white/10 transition-colors duration-300 hover:border-white/20;
   }
-  
-  .service-price {
-    @apply text-2xl font-bold text-gold-400;
+
+  /* Thin top rule used to head a section/row */
+  .hairline {
+    @apply border-t border-white/10;
   }
 }

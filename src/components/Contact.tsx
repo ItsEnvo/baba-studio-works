@@ -1,273 +1,213 @@
 import React, { useState } from 'react';
+import { site } from '../content';
+
+const EMPTY = { name: '', email: '', phone: '', service: '', budget: '', message: '', projectDate: '' };
+
+const field = 'w-full px-4 py-3 bg-noir-900 border border-white/10 rounded-none text-paper placeholder-white/25 text-sm focus:outline-none focus:border-white/40 transition-colors';
+const label = 'block text-[11px] tracking-widest2 uppercase text-white/40 mb-2';
+
+const SERVICE_LABELS: Record<string, string> = {
+  recording: 'Recording Session',
+  mixing: 'Mixing & Mastering',
+  video: 'Music Video',
+  photography: 'Photography',
+  commercial: 'Commercial / Brand',
+  package: 'Artist Package',
+  other: 'Other / Custom',
+};
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: '',
-    budget: '',
-    message: '',
-    projectDate: ''
-  });
+  const [formData, setFormData] = useState(EMPTY);
+  const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
+  const [botField, setBotField] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const mailtoFallback = () => {
+    const subject = `Project Inquiry — ${formData.name}`;
+    const body = [
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Phone: ${formData.phone || '—'}`,
+      `Service: ${SERVICE_LABELS[formData.service] || formData.service}`,
+      `Budget: ${formData.budget || '—'}`,
+      `Preferred Date: ${formData.projectDate || '—'}`,
+      '',
+      formData.message,
+    ].join('\n');
+    window.location.href = `${site.email.href}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setSent(true);
+    setFormData(EMPTY);
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real application, this would send the form data to a backend
-    console.log('Form submitted:', formData);
-    alert('Thank you for your inquiry! We\'ll get back to you within 24 hours.');
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      service: '',
-      budget: '',
-      message: '',
-      projectDate: ''
-    });
+    if (botField) return; // honeypot tripped — silently drop
+    setError('');
+
+    // No key configured yet — open the visitor's email client instead.
+    if (!site.web3formsKey) {
+      mailtoFallback();
+      return;
+    }
+
+    setSending(true);
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: site.web3formsKey,
+          subject: `New Project Inquiry — ${formData.name}`,
+          from_name: 'The Baba Website',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: SERVICE_LABELS[formData.service] || formData.service,
+          budget: formData.budget,
+          preferred_date: formData.projectDate,
+          message: formData.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSent(true);
+        setFormData(EMPTY);
+      } else {
+        throw new Error(data.message || 'Submission failed');
+      }
+    } catch {
+      setError('Something went wrong sending your inquiry. Please email us directly at ' + site.email.display + '.');
+    } finally {
+      setSending(false);
+    }
   };
 
-  const contactInfo = [
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      ),
-      title: 'Studio Location',
-      details: ['Fort Lauderdale, FL', 'By appointment only']
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      ),
-      title: 'Email',
-      details: ['info@thebabafl.com', 'Response within 24 hours']
-    },
-    {
-      icon: (
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-        </svg>
-      ),
-      title: 'Phone',
-      details: ['(954) 555-BABA', 'Call or text anytime']
-    }
+  const info = [
+    { label: 'Studio', value: site.address.display, href: undefined as string | undefined },
+    { label: 'Email', value: site.email.display, href: site.email.href },
+    { label: 'Phone', value: site.phone.display, href: site.phone.href },
+    { label: 'Instagram', value: site.instagram.handle, href: site.instagram.href },
   ];
 
   return (
-    <section id="contact" className="section-padding bg-black">
+    <section id="contact" className="section-padding border-t border-white/10">
       <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-display font-black mb-6 text-white">
-            Book Your Session
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Ready to bring your musical vision to life? Let's start the conversation. 
-            Tell us about your project and we'll create a custom solution for you.
-          </p>
-        </div>
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />06 — Contact</p>
+            <h2 className="section-title text-4xl md:text-6xl max-w-md">
+              Let's make something worth keeping.
+            </h2>
+            <p className="mt-6 text-white/55 max-w-sm">
+              Tell us about the project and we'll come back with a plan, usually within 24 hours.
+            </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Contact Form */}
-          <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="studio-card">
-              <h3 className="text-2xl font-bold text-white mb-8">Project Details</h3>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors"
-                    placeholder="Your name"
-                  />
+            <div className="mt-12 border-t border-white/10">
+              {info.map((c) => (
+                <div key={c.label} className="flex items-center justify-between py-4 border-b border-white/10">
+                  <span className="text-[11px] tracking-widest2 uppercase text-white/40">{c.label}</span>
+                  {c.href ? (
+                    <a href={c.href} target={c.label === 'Instagram' ? '_blank' : undefined} rel="noopener noreferrer"
+                      className="text-paper text-sm hover:text-white/60 transition-colors">{c.value}</a>
+                  ) : (
+                    <span className="text-paper text-sm">{c.value}</span>
+                  )}
                 </div>
-                
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-300 mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors"
-                    placeholder="(954) 555-0000"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-300 mb-2">
-                    Service Needed *
-                  </label>
-                  <select
-                    id="service"
-                    name="service"
-                    value={formData.service}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors"
-                  >
-                    <option value="">Select a service</option>
-                    <option value="recording">Recording Session</option>
-                    <option value="mixing">Mixing & Mastering</option>
-                    <option value="video">Music Video Production</option>
-                    <option value="photography">Photography</option>
-                    <option value="commercial">Commercial Project</option>
-                    <option value="package">Artist Package</option>
-                    <option value="other">Other / Custom</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-2">
-                    Budget Range
-                  </label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors"
-                  >
-                    <option value="">Select budget range</option>
-                    <option value="under-500">Under $500</option>
-                    <option value="500-1000">$500 - $1,000</option>
-                    <option value="1000-2500">$1,000 - $2,500</option>
-                    <option value="2500-5000">$2,500 - $5,000</option>
-                    <option value="5000-plus">$5,000+</option>
-                    <option value="discuss">Let's discuss</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label htmlFor="projectDate" className="block text-sm font-medium text-gray-300 mb-2">
-                    Preferred Date
-                  </label>
-                  <input
-                    type="date"
-                    id="projectDate"
-                    name="projectDate"
-                    value={formData.projectDate}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors"
-                  />
-                </div>
-              </div>
-
-              <div className="mb-8">
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                  Project Description *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-400 transition-colors resize-vertical"
-                  placeholder="Tell us about your project... What type of music, how many songs, your vision, timeline, etc."
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="btn-primary w-full text-lg py-4"
-              >
-                Send Project Inquiry
-              </button>
-            </form>
+              ))}
+            </div>
           </div>
 
-          {/* Contact Information */}
-          <div className="space-y-6">
-            {contactInfo.map((info, index) => (
-              <div key={index} className="studio-card">
-                <div className="flex items-start">
-                  <div className="w-12 h-12 rounded-lg bg-gold-400/20 flex items-center justify-center mr-4 flex-shrink-0">
-                    <div className="text-gold-400">
-                      {info.icon}
-                    </div>
+          <div className="lg:col-span-7">
+            {sent ? (
+              <div className="panel p-14 text-center h-full grid place-items-center">
+                <div>
+                  <div className="w-12 h-12 border border-white/20 grid place-items-center mx-auto mb-6">
+                    <svg className="w-6 h-6 text-paper" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-2">{info.title}</h4>
-                    {info.details.map((detail, detailIndex) => (
-                      <p key={detailIndex} className="text-gray-300 text-sm">
-                        {detail}
-                      </p>
-                    ))}
-                  </div>
+                  <h3 className="font-display text-2xl font-semibold text-paper mb-2">Received.</h3>
+                  <p className="text-white/50">Thanks for reaching out — we'll be in touch within 24 hours.</p>
+                  <button onClick={() => setSent(false)} className="btn-secondary mt-8">Send another</button>
                 </div>
               </div>
-            ))}
+            ) : (
+              <form onSubmit={onSubmit} className="panel p-8 md:p-10">
+                <input
+                  type="text" name="botcheck" tabIndex={-1} autoComplete="off"
+                  value={botField} onChange={(e) => setBotField(e.target.value)}
+                  className="hidden" aria-hidden="true"
+                />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                  <div>
+                    <label htmlFor="name" className={label}>Full Name *</label>
+                    <input id="name" name="name" value={formData.name} onChange={onChange} required className={field} placeholder="Your name" />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className={label}>Email *</label>
+                    <input type="email" id="email" name="email" value={formData.email} onChange={onChange} required className={field} placeholder="you@email.com" />
+                  </div>
+                </div>
 
-            {/* Social Media */}
-            <div className="studio-card">
-              <h4 className="text-lg font-bold text-white mb-4">Follow Us</h4>
-              <div className="flex space-x-4">
-                <a
-                  href="#"
-                  className="w-12 h-12 rounded-lg bg-gold-400/20 flex items-center justify-center text-gold-400 hover:bg-gold-400/30 transition-colors"
-                  aria-label="Instagram"
-                >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.618 5.367 11.986 11.988 11.986 6.618 0 11.986-5.368 11.986-11.986C24.003 5.367 18.635.001 12.017.001zM8.449 16.988c-1.297 0-2.349-1.051-2.349-2.349 0-1.297 1.052-2.349 2.349-2.349 1.297 0 2.349 1.052 2.349 2.349 0 1.298-1.052 2.349-2.349 2.349zm7.718 0c-1.297 0-2.349-1.051-2.349-2.349 0-1.297 1.052-2.349 2.349-2.349 1.297 0 2.349 1.052 2.349 2.349 0 1.298-1.052 2.349-2.349 2.349z"/>
-                  </svg>
-                </a>
-              </div>
-              <p className="text-gray-400 text-sm mt-2">@thebabafl</p>
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                  <div>
+                    <label htmlFor="phone" className={label}>Phone</label>
+                    <input type="tel" id="phone" name="phone" value={formData.phone} onChange={onChange} className={field} placeholder="(561) 000-0000" />
+                  </div>
+                  <div>
+                    <label htmlFor="service" className={label}>Service *</label>
+                    <select id="service" name="service" value={formData.service} onChange={onChange} required className={field}>
+                      <option value="" className="bg-noir-900">Select a service</option>
+                      <option value="recording" className="bg-noir-900">Recording Session</option>
+                      <option value="mixing" className="bg-noir-900">Mixing &amp; Mastering</option>
+                      <option value="video" className="bg-noir-900">Music Video</option>
+                      <option value="photography" className="bg-noir-900">Photography</option>
+                      <option value="commercial" className="bg-noir-900">Commercial / Brand</option>
+                      <option value="package" className="bg-noir-900">Artist Package</option>
+                      <option value="other" className="bg-noir-900">Other / Custom</option>
+                    </select>
+                  </div>
+                </div>
 
-            {/* Quick Response */}
-            <div className="studio-card bg-gold-400/10">
-              <h4 className="text-lg font-bold text-white mb-2">Quick Response Guarantee</h4>
-              <p className="text-gray-300 text-sm">
-                We respond to all inquiries within 24 hours. For urgent projects, 
-                call or text us directly.
-              </p>
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+                  <div>
+                    <label htmlFor="budget" className={label}>Budget</label>
+                    <select id="budget" name="budget" value={formData.budget} onChange={onChange} className={field}>
+                      <option value="" className="bg-noir-900">Select range</option>
+                      <option value="under-500" className="bg-noir-900">Under $500</option>
+                      <option value="500-1000" className="bg-noir-900">$500 – $1,000</option>
+                      <option value="1000-2500" className="bg-noir-900">$1,000 – $2,500</option>
+                      <option value="2500-5000" className="bg-noir-900">$2,500 – $5,000</option>
+                      <option value="5000-plus" className="bg-noir-900">$5,000+</option>
+                      <option value="discuss" className="bg-noir-900">Let's discuss</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="projectDate" className={label}>Preferred Date</label>
+                    <input type="date" id="projectDate" name="projectDate" value={formData.projectDate} onChange={onChange} className={`${field} [color-scheme:dark]`} />
+                  </div>
+                </div>
+
+                <div className="mb-8">
+                  <label htmlFor="message" className={label}>Project Description *</label>
+                  <textarea id="message" name="message" value={formData.message} onChange={onChange} required rows={5} className={`${field} resize-vertical`}
+                    placeholder="What are you making? The vision, scope, timeline..." />
+                </div>
+
+                {error && (
+                  <p className="mb-4 text-sm text-red-300/80 border border-red-400/20 bg-red-500/5 px-4 py-3">{error}</p>
+                )}
+
+                <button type="submit" disabled={sending} className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                  {sending ? 'Sending…' : 'Send Project Inquiry'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>

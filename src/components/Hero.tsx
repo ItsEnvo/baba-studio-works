@@ -1,84 +1,45 @@
 import React from 'react';
+import { site } from '../content';
 
 const Hero: React.FC = () => {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60"></div>
-        {/* Animated light beams */}
-        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-gold-400/20 to-transparent transform -rotate-12 animate-pulse"></div>
-        <div className="absolute top-0 right-1/3 w-1 h-full bg-gradient-to-b from-amber-400/20 to-transparent transform rotate-12 animate-pulse delay-1000"></div>
-      </div>
+    <section id="hero" className="relative min-h-screen flex flex-col justify-end overflow-hidden">
+      {/* Subtle cinematic vignette */}
+      <div className="absolute inset-0 -z-10 bg-noir-950" />
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_50%_-10%,rgba(255,255,255,0.06),transparent_60%)]" />
 
-      <div className="container-custom text-center relative z-10">
-        <div className="animate-fade-in">
-          <h1 className="hero-text mb-6 animate-slide-up">
-            THE BABA
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto font-light leading-relaxed animate-slide-up delay-200">
-            Premium Recording Studio in Fort Lauderdale
-          </p>
-          <p className="text-lg md:text-xl text-gold-400 mb-12 font-medium animate-slide-up delay-300">
-            Where Sound Becomes Legend
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center animate-slide-up delay-500">
-            <button 
-              onClick={scrollToContact}
-              className="btn-primary text-lg px-12 py-4"
-            >
-              Book Your Session
-            </button>
-            <button 
-              onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-              className="btn-secondary text-lg px-12 py-4"
-            >
-              View Services
-            </button>
-          </div>
-        </div>
+      <div className="container-custom w-full pb-16 pt-40">
+        <p className="eyebrow animate-fade-in mb-8">
+          <span className="w-8 h-px bg-white/40" />
+          {site.city} · Est.
+        </p>
 
-        {/* Studio Features */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 hidden lg:block">
-          <div className="flex space-x-12 text-sm text-gray-400">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gold-400/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                </svg>
-              </div>
-              <p className="font-medium">Professional Recording</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gold-400/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <p className="font-medium">Music Videos</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gold-400/20 flex items-center justify-center">
-                <svg className="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <p className="font-medium">Mixing & Mastering</p>
-            </div>
-          </div>
+        <h1 className="section-title text-[clamp(2.75rem,8vw,7rem)] max-w-5xl animate-fade-up">
+          Recording &amp; video production
+          <span className="text-white/45"> for artists and brands who want it done right.</span>
+        </h1>
+
+        <div className="mt-12 flex flex-col sm:flex-row sm:items-center gap-5 animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <button onClick={() => go('portfolio')} className="btn-primary">
+            <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            View the Reel
+          </button>
+          <button onClick={() => go('contact')} className="btn-secondary">Start a Project</button>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <svg className="w-6 h-6 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+      {/* Bottom capability rail */}
+      <div className="hairline">
+        <div className="container-custom w-full py-6 flex flex-wrap items-center gap-x-10 gap-y-3 text-[11px] tracking-widest2 uppercase text-white/40">
+          <span className="text-white/60">Capabilities</span>
+          <span>Recording</span>
+          <span>Mixing &amp; Mastering</span>
+          <span>Music Videos</span>
+          <span>Commercials</span>
+          <span>Photography</span>
+        </div>
       </div>
     </section>
   );

@@ -1,99 +1,67 @@
 import React, { useState, useEffect } from 'react';
+import { site } from '../content';
+
+const NAV = [
+  { id: 'services', label: 'Services' },
+  { id: 'portfolio', label: 'Work' },
+  { id: 'gallery', label: 'Gallery' },
+  { id: 'about', label: 'Studio' },
+  { id: 'pricing', label: 'Pricing' },
+];
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({ 
-      behavior: 'smooth' 
-    });
+  const go = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setIsMobileMenuOpen(false);
   };
 
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-black/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
+    <header className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      isScrolled ? 'bg-noir-950/85 backdrop-blur-xl border-b border-white/10' : 'bg-transparent border-b border-transparent'
     }`}>
-      <nav className="container-custom flex items-center justify-between py-4">
-        <div className="flex items-center">
-          <h1 className="text-3xl font-display font-black text-gold-400">
-            THE BABA
-          </h1>
-        </div>
+      <nav className="container-custom flex items-center justify-between py-5">
+        <button onClick={() => go('hero')} className="font-display text-lg font-semibold tracking-tight text-paper">
+          THE BABA
+        </button>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <button 
-            onClick={() => scrollToSection('services')}
-            className="text-white hover:text-gold-400 transition-colors"
-          >
-            Services
-          </button>
-          <button 
-            onClick={() => scrollToSection('portfolio')}
-            className="text-white hover:text-gold-400 transition-colors"
-          >
-            Portfolio
-          </button>
-          <button 
-            onClick={() => scrollToSection('about')}
-            className="text-white hover:text-gold-400 transition-colors"
-          >
-            About
-          </button>
-          <button 
-            onClick={() => scrollToSection('pricing')}
-            className="text-white hover:text-gold-400 transition-colors"
-          >
-            Pricing
-          </button>
-          <button 
-            onClick={() => scrollToSection('contact')}
-            className="btn-primary"
-          >
-            Book Session
+        <div className="hidden md:flex items-center gap-9">
+          {NAV.map((n) => (
+            <button key={n.id} onClick={() => go(n.id)}
+              className="text-[13px] tracking-wide text-white/55 hover:text-paper transition-colors">
+              {n.label}
+            </button>
+          ))}
+          <button onClick={() => go('contact')} className="btn-primary !px-5 !py-2 text-[13px]">
+            Start a Project
           </button>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-white"
-        >
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden text-paper p-2" aria-label="Menu">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6}
+              d={isMobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 7h16M4 17h16'} />
           </svg>
         </button>
 
-        {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-md md:hidden">
-            <div className="flex flex-col space-y-4 p-6">
-              <button onClick={() => scrollToSection('services')} className="text-white hover:text-gold-400 text-left">
-                Services
-              </button>
-              <button onClick={() => scrollToSection('portfolio')} className="text-white hover:text-gold-400 text-left">
-                Portfolio
-              </button>
-              <button onClick={() => scrollToSection('about')} className="text-white hover:text-gold-400 text-left">
-                About
-              </button>
-              <button onClick={() => scrollToSection('pricing')} className="text-white hover:text-gold-400 text-left">
-                Pricing
-              </button>
-              <button onClick={() => scrollToSection('contact')} className="btn-primary w-full">
-                Book Session
-              </button>
+          <div className="absolute top-full left-0 w-full bg-noir-950/97 backdrop-blur-xl border-b border-white/10 md:hidden">
+            <div className="flex flex-col gap-5 p-6">
+              {NAV.map((n) => (
+                <button key={n.id} onClick={() => go(n.id)} className="text-left text-white/70 hover:text-paper">
+                  {n.label}
+                </button>
+              ))}
+              <button onClick={() => go('contact')} className="btn-primary w-full">Start a Project</button>
+              <a href={site.phone.href} className="text-center text-sm text-white/40">{site.phone.display}</a>
             </div>
           </div>
         )}
