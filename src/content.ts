@@ -79,6 +79,37 @@ export const portfolio: PortfolioItem[] = [
 ];
 
 // =============================================================================
+// MUSIC WORK — songs recorded / mixed / mastered at the studio.
+// Shown as album-art cards that link out to the release. `url` = Apple Music,
+// Spotify, or any streaming link. Add/remove freely.
+// =============================================================================
+export type MusicItem = {
+  title: string;
+  artist: string;
+  artwork: string;
+  url: string;
+};
+
+export const music: MusicItem[] = [
+  { title: "Think I'm Crazy", artist: 'Robb Bank$', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/73/97/78/7397782d-1aaa-4a5e-5a61-8c7522864037/61923.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/think-im-crazy/1872097458?i=1872097472' },
+  { title: 'Okay Cupid', artist: 'Kyra Baskin', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/73/63/ad/7363adf7-7f05-eb0d-83c4-63e0e9137ec9/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/okay-cupid/1795285751?i=1795285752' },
+  { title: 'CIRCLES', artist: 'ENVO', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/c3/5c/87/c35c875e-92c2-83ff-466c-a6ea7779a862/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/circles-single/1895055381' },
+  { title: 'LANGUAGE', artist: 'ENVO', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/57/50/97/575097f6-a313-34c4-6520-eedce19f1c31/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/language/1894549442?i=1894549443' },
+  { title: 'Pa Di Sa', artist: 'J Desir', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/4d/a4/e3/4da4e388-351f-dfd1-c228-ad42b3735f9a/198542846542-copy-712f96e8.png/600x600bb.jpg', url: 'https://music.apple.com/us/album/pa-di-sa/1760357360?i=1760357362' },
+  { title: 'Stay (feat. Prodigious Q)', artist: 'J Desir', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/6e/2b/75/6e2b75da-e375-c103-6550-71e461099ce6/199479199138-copy-452ff0e6.png/600x600bb.jpg', url: 'https://music.apple.com/us/album/stay-feat-prodigious-q-single/1823106787' },
+  { title: 'Costs Of Staying', artist: 'Soch', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/2f/80/e4/2f80e425-f22b-ffe8-322d-14e41f81a14d/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/costs-of-staying/1870586998' },
+  { title: 'DIS N DAT', artist: 'Vizo South', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/f6/cd/e5/f6cde555-29b2-0d0c-dadd-bb99dff2e850/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/dis-n-dat/1812092107?i=1812092108' },
+  { title: 'SAME MONEY x NWFKMoney', artist: 'Bani', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/59/d7/8e/59d78e5a-a98c-4942-867b-e8e8d5555146/196873523217.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/same-money-x-nwfkmoney/1840951566?i=1840951567' },
+  { title: 'Black Truck', artist: 'K3hree & Bani', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/02/36/bc/0236bca9-8072-24e8-b7bc-49242babd1e0/cover_199087133487.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/black-truck/1866539607?i=1866539608' },
+  { title: 'Clocked It', artist: 'Angelina Lucii', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/fa/24/8e/fa248e6c-754a-787e-1da9-9f520133f0ad/764656145910_cover.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/clocked-it/1793827284?i=1793827288' },
+  { title: 'You Lived Life', artist: 'Craig Wittus', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/6b/84/bc/6b84bc29-9a07-9f6a-cd1c-1f9bd9ffedc0/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/you-lived-life/1722416529' },
+  { title: 'Lights Go Down', artist: 'GABE GREYSON', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/d9/a4/dd/d9a4ddb2-4484-5e60-3108-a0145aa3f543/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/lights-go-down/1809482822?i=1809482823' },
+  { title: 'Trust Issues', artist: 'Local loverboi', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/5b/93/0a/5b930a68-861d-6edc-e280-070743f8ea65/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/trust-issues/1743447740?i=1743447741' },
+  { title: 'Ladybug (Virgos)', artist: '734Jake', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/07/78/10/077810c4-cb22-32ba-0921-dbd92d88657f/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/ladybug-virgos/1648808175?i=1648808446' },
+  { title: 'Gothic Mansion', artist: '734Jake', artwork: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/05/77/74/057774b4-503d-dc29-b755-89dae9bf926e/artwork.jpg/600x600bb.jpg', url: 'https://music.apple.com/us/album/gothic-mansion/1642572951?i=1642572952' },
+];
+
+// =============================================================================
 // STUDIO GALLERY — photos of sessions / artists in the room.
 // Drop image files into  public/gallery/  then add their filenames here, e.g.
 //   { src: '/gallery/session-jdesir.jpg', caption: 'J-Desir in the booth' }
