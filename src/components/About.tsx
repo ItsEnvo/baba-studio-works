@@ -6,10 +6,10 @@ const About: React.FC = () => {
 
   return (
     <section id="about" className="section-padding border-t border-white/10">
-      <div className="container-custom">
+      <div className="container-custom reveal">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />04 — The Studio</p>
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />04 — The Studio</p>
             <h2 className="section-title text-4xl md:text-6xl max-w-2xl">
               A production house built for the work.
             </h2>

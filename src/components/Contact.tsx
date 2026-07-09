@@ -3,7 +3,7 @@ import { site } from '../content';
 
 const EMPTY = { name: '', email: '', phone: '', service: '', budget: '', message: '', projectDate: '' };
 
-const field = 'w-full px-4 py-3 bg-noir-900 border border-white/10 rounded-none text-paper placeholder-white/25 text-sm focus:outline-none focus:border-white/40 transition-colors';
+const field = 'w-full px-4 py-3.5 bg-noir-950/60 border border-white/10 rounded-none text-paper placeholder-white/25 text-sm focus:outline-none focus:border-champagne/50 transition-colors duration-300';
 const label = 'block text-[11px] tracking-widest2 uppercase text-white/40 mb-2';
 
 const SERVICE_LABELS: Record<string, string> = {
@@ -96,10 +96,10 @@ const Contact: React.FC = () => {
 
   return (
     <section id="contact" className="section-padding border-t border-white/10">
-      <div className="container-custom">
+      <div className="container-custom reveal">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />06 — Contact</p>
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />06 — Contact</p>
             <h2 className="section-title text-4xl md:text-6xl max-w-md">
               Let's make something worth keeping.
             </h2>

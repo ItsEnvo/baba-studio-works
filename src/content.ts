@@ -12,7 +12,7 @@ export const site = {
   // ---- CONTACT (replace placeholders) ----
   phone: { display: '(561) 810-7844', href: 'tel:+15618107844', placeholder: false },
   email: { display: 'thebabarecordings@gmail.com', href: 'mailto:thebabarecordings@gmail.com', placeholder: false },
-  instagram: { handle: '@thebabafl', href: 'https://instagram.com/thebabafl', placeholder: true },
+  instagram: { handle: '@thebabaproductionstudios', href: 'https://instagram.com/thebabaproductionstudios', placeholder: false },
   address: { display: 'Fort Lauderdale, FL — by appointment', placeholder: true },
   hours: [
     { day: 'Mon – Fri', time: '10am – 10pm' },
@@ -95,8 +95,8 @@ export const services = [
   {
     title: 'Recording',
     price: '$100/hr',
-    description: 'Pro recording with engineer, industry gear, treated rooms.',
-    features: ['High-end mics & preamps', 'Treated live rooms', 'Engineer included', 'Raw files provided'],
+    description: 'Studio recording with an engineer — music, audiobooks, voiceover, and podcasts.',
+    features: ['High-end mics & preamps', 'Music, VO & audiobooks', 'Engineer included', 'Raw files provided'],
   },
   {
     title: 'Mixing & Mastering',
@@ -107,13 +107,13 @@ export const services = [
   {
     title: 'Video Production',
     price: '$800+',
-    description: 'Music videos and commercials, concept to final cut.',
-    features: ['4K capture', 'Pro lighting', 'Multi-cam', 'Color grade & edit'],
+    description: 'Music videos, commercials, reels, and event recaps — concept to final cut.',
+    features: ['4K multi-cam capture', 'Reels & short-form', 'Commercials & recaps', 'Color grade & edit'],
   },
   {
     title: 'Photography',
     price: 'Custom',
-    description: 'Portraits, events, and commercial shoots.',
-    features: ['Artist portraits', 'Event coverage', 'Commercial', 'Pro retouching'],
+    description: 'Photo shoots for artists, brands, events, and product.',
+    features: ['Artist & brand portraits', 'Event coverage', 'Commercial & product', 'Pro retouching'],
   },
 ];

@@ -17,9 +17,9 @@ const Gallery: React.FC = () => {
 
   return (
     <section id="gallery" className="section-padding">
-      <div className="container-custom">
+      <div className="container-custom reveal">
         <div className="mb-14">
-          <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />03 — The Studio</p>
+          <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />03 — The Studio</p>
           <h2 className="section-title text-4xl md:text-6xl max-w-3xl">
             Inside the room.
           </h2>

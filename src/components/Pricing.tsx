@@ -35,8 +35,10 @@ const ADDONS = [
   { service: 'Instrument Rental', price: '$25–100 / day' },
   { service: 'Extended Studio Time', price: '$75 / hr' },
   { service: 'Rush Delivery', price: '+50%' },
+  { service: 'Audiobook / Voiceover', price: 'Custom' },
+  { service: 'Reels / Short-form Video', price: 'Custom' },
   { service: 'Photography Session', price: '$200–500' },
-  { service: 'Event Coverage', price: 'Custom' },
+  { service: 'Event Coverage / Recap', price: 'Custom' },
   { service: 'Commercial Production', price: 'Custom' },
   { service: 'Album Package (10+ songs)', price: 'On request' },
 ];
@@ -45,10 +47,10 @@ const go = () => document.getElementById('contact')?.scrollIntoView({ behavior: 
 
 const Pricing: React.FC = () => (
   <section id="pricing" className="section-padding border-t border-white/10">
-    <div className="container-custom">
+    <div className="container-custom reveal">
       <div className="grid lg:grid-cols-12 gap-y-8 items-end mb-16">
         <div className="lg:col-span-8">
-          <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />05 — Rates</p>
+          <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />05 — Rates</p>
           <h2 className="section-title text-4xl md:text-6xl max-w-2xl">Clear rates. No surprises.</h2>
         </div>
         <p className="lg:col-span-4 text-white/55 lg:text-right">

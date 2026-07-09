@@ -46,10 +46,10 @@ const Portfolio: React.FC = () => {
 
   return (
     <section id="portfolio" className="section-padding">
-      <div className="container-custom">
+      <div className="container-custom reveal">
         <div className="grid lg:grid-cols-12 gap-y-8 items-end mb-14">
           <div className="lg:col-span-8">
-            <p className="eyebrow mb-6"><span className="w-8 h-px bg-white/40" />02 — Selected Work</p>
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />02 — Selected Work</p>
             <h2 className="section-title text-4xl md:text-6xl max-w-3xl">
               The reel speaks for itself.
             </h2>

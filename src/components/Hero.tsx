@@ -12,13 +12,14 @@ const Hero: React.FC = () => {
 
       <div className="container-custom w-full pb-16 pt-40">
         <p className="eyebrow animate-fade-in mb-8">
-          <span className="w-8 h-px bg-white/40" />
+          <span className="w-8 h-px bg-champagne/60" />
           {site.city} · Est.
         </p>
 
         <h1 className="section-title text-[clamp(2.75rem,8vw,7rem)] max-w-5xl animate-fade-up">
-          Recording &amp; video production
-          <span className="text-white/45"> for artists and brands who want it done right.</span>
+          A recording &amp; video studio
+          <span className="serif-accent text-white/50"> for artists, brands &amp; creators</span>
+          <span className="text-white/45"> who want it done right.</span>
         </h1>
 
         <div className="mt-12 flex flex-col sm:flex-row sm:items-center gap-5 animate-fade-up" style={{ animationDelay: '0.1s' }}>
@@ -36,8 +37,11 @@ const Hero: React.FC = () => {
           <span className="text-white/60">Capabilities</span>
           <span>Recording</span>
           <span>Mixing &amp; Mastering</span>
+          <span>Audiobooks</span>
           <span>Music Videos</span>
           <span>Commercials</span>
+          <span>Reels</span>
+          <span>Event Recaps</span>
           <span>Photography</span>
         </div>
       </div>

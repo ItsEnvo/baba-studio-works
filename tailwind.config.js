@@ -16,9 +16,16 @@ export default {
           600: '#262626',
         },
         paper: '#f4f3ef', // warm off-white
+        // Champagne / brushed-gold accent — used sparingly for a premium feel
+        champagne: {
+          DEFAULT: '#c8b184',
+          soft: '#d9c9a8',
+          deep: '#a68a56',
+        },
       },
       fontFamily: {
         'display': ['Archivo', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        'serif': ['Fraunces', 'Georgia', 'serif'],
         'body': ['Inter', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
@@ -28,11 +35,19 @@ export default {
         'fade-up': 'fadeUp 0.8s cubic-bezier(0.16,1,0.3,1) both',
         'fade-in': 'fadeIn 1s ease-out both',
         'marquee': 'marquee 40s linear infinite',
+        'grain': 'grain 0.7s steps(2) infinite',
       },
       keyframes: {
         fadeUp: { '0%': { transform: 'translateY(24px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
         marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } },
+        grain: {
+          '0%,100%': { transform: 'translate(0,0)' },
+          '20%': { transform: 'translate(-4%,3%)' },
+          '40%': { transform: 'translate(2%,-5%)' },
+          '60%': { transform: 'translate(-3%,2%)' },
+          '80%': { transform: 'translate(4%,-2%)' },
+        },
       },
     },
   },
