@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { site } from '../content';
+import { site, gallery } from '../content';
 
+// Gallery hides itself until there are photos — don't link to a section that won't render.
 const NAV = [
   { id: 'services', label: 'Services' },
   { id: 'portfolio', label: 'Work' },
-  { id: 'gallery', label: 'Gallery' },
+  ...(gallery.length ? [{ id: 'gallery', label: 'Gallery' }] : []),
   { id: 'about', label: 'Studio' },
   { id: 'pricing', label: 'Pricing' },
 ];

@@ -1,5 +1,12 @@
 import React from 'react';
-import { site } from '../content';
+import { site, portfolio } from '../content';
+
+// Three frames lifted from the reel, slowly cross-fading behind the type.
+// Gives the hero motion and proof of work without shipping a video file.
+const STILLS = portfolio
+  .filter((p) => p.kind === 'youtube')
+  .slice(0, 3)
+  .map((p) => `https://i.ytimg.com/vi/${p.src}/maxresdefault.jpg`);
 
 const Hero: React.FC = () => {
   const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -8,12 +15,27 @@ const Hero: React.FC = () => {
     <section id="hero" className="relative min-h-screen flex flex-col justify-end overflow-hidden">
       {/* Subtle cinematic vignette */}
       <div className="absolute inset-0 -z-10 bg-noir-950" />
+
+      {/* Cross-fading stills from the reel */}
+      <div className="absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        {STILLS.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt=""
+            className="hero-still absolute inset-0 w-full h-full object-cover grayscale opacity-0"
+            style={{ animation: `heroFade 21s ease-in-out ${i * 7}s infinite` }}
+          />
+        ))}
+      </div>
+      {/* Scrim so the type always wins */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-noir-950 via-noir-950/85 to-noir-950/70" />
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(120%_80%_at_50%_-10%,rgba(255,255,255,0.06),transparent_60%)]" />
 
       <div className="container-custom w-full pb-16 pt-40">
         <p className="eyebrow animate-fade-in mb-8">
           <span className="w-8 h-px bg-champagne/60" />
-          {site.city} · Est.
+          {site.city}
         </p>
 
         <h1 className="section-title text-[clamp(2.75rem,8vw,7rem)] max-w-5xl animate-fade-up">

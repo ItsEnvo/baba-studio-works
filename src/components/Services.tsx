@@ -1,5 +1,5 @@
 import React from 'react';
-import { services } from '../content';
+import { services, sectionNumber } from '../content';
 
 const Services: React.FC = () => {
   const go = () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -9,7 +9,7 @@ const Services: React.FC = () => {
       <div className="container-custom reveal">
         <div className="grid lg:grid-cols-12 gap-y-10 mb-16">
           <div className="lg:col-span-4">
-            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />01 — Services</p>
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />{sectionNumber('services')} — Services</p>
           </div>
           <div className="lg:col-span-8">
             <h2 className="section-title text-4xl md:text-6xl max-w-3xl">

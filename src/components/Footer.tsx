@@ -1,10 +1,10 @@
 import React from 'react';
-import { site } from '../content';
+import { site, gallery } from '../content';
 
 const QUICK = [
   { name: 'Services', id: 'services' },
   { name: 'Work', id: 'portfolio' },
-  { name: 'Gallery', id: 'gallery' },
+  ...(gallery.length ? [{ name: 'Gallery', id: 'gallery' }] : []),
   { name: 'Studio', id: 'about' },
   { name: 'Pricing', id: 'pricing' },
   { name: 'Contact', id: 'contact' },

@@ -97,7 +97,21 @@
     transform: translateY(0);
   }
 
+  /* Equalizer bars on the currently-playing cover */
+  @keyframes eq {
+    from { transform: scaleY(0.25); }
+    to   { transform: scaleY(1); }
+  }
+
+  /* Slow cross-fading still behind the hero — atmosphere without a video file */
+  @keyframes heroFade {
+    0%, 26%   { opacity: 0.30; transform: scale(1.06); }
+    33%, 100% { opacity: 0;    transform: scale(1.12); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
+    .hero-still { animation: none !important; }
+    .hero-still:first-child { opacity: 0.22; }
   }
 }

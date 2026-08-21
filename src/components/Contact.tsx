@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { site } from '../content';
+import { site, sectionNumber } from '../content';
 
 const EMPTY = { name: '', email: '', phone: '', service: '', budget: '', message: '', projectDate: '' };
 
@@ -99,7 +99,7 @@ const Contact: React.FC = () => {
       <div className="container-custom reveal">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />06 — Contact</p>
+            <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />{sectionNumber('contact')} — Contact</p>
             <h2 className="section-title text-4xl md:text-6xl max-w-md">
               Let's make something worth keeping.
             </h2>

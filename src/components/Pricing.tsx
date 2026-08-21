@@ -1,3 +1,4 @@
+import { sectionNumber } from '../content';
 import React from 'react';
 
 interface PricingTier {
@@ -50,7 +51,7 @@ const Pricing: React.FC = () => (
     <div className="container-custom reveal">
       <div className="grid lg:grid-cols-12 gap-y-8 items-end mb-16">
         <div className="lg:col-span-8">
-          <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />05 — Rates</p>
+          <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />{sectionNumber('pricing')} — Rates</p>
           <h2 className="section-title text-4xl md:text-6xl max-w-2xl">Clear rates. No surprises.</h2>
         </div>
         <p className="lg:col-span-4 text-white/55 lg:text-right">

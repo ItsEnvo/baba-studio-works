@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { gallery } from '../content';
+import { gallery, sectionNumber } from '../content';
 
 const Gallery: React.FC = () => {
   const [active, setActive] = useState<number | null>(null);
+
+  // Nothing to show yet — render nothing rather than a "coming soon" placeholder.
+  const empty = gallery.length === 0;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -15,11 +18,13 @@ const Gallery: React.FC = () => {
     return () => window.removeEventListener('keydown', onKey);
   }, [active]);
 
+  if (empty) return null;
+
   return (
     <section id="gallery" className="section-padding">
       <div className="container-custom reveal">
         <div className="mb-14">
-          <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />03 — The Studio</p>
+          <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />{sectionNumber('gallery')} — Inside the Room</p>
           <h2 className="section-title text-4xl md:text-6xl max-w-3xl">
             Inside the room.
           </h2>
