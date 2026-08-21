@@ -67,6 +67,8 @@ export type PortfolioItem = {
 // Real music videos shot/produced with The Baba artists (pulled from itsenvo portfolio).
 // `src` = YouTube video ID. Remove any you don't want shown.
 export const portfolio: PortfolioItem[] = [
+  // portfolio[0] is the full-bleed FEATURED tile in the Work section — newest work leads.
+  { title: 'CREDIT', category: 'video', kind: 'youtube', src: '7g9p1Agajyo', description: 'Vizo South' },
   { title: 'YG Bam (Directed)', category: 'video', kind: 'youtube', src: '9m591tqDJUs', description: 'YG Bam' },
   { title: 'Stay (feat. Prodigious Q)', category: 'video', kind: 'youtube', src: 'nZ-zynNy67M', description: 'J-Desir' },
   { title: 'Pa Di Sa', category: 'video', kind: 'youtube', src: 'CA-E2mtsniI', description: 'J-Desir' },
