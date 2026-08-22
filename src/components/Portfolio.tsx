@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { portfolio, music, type PortfolioItem, type MusicItem, sectionNumber } from '../content';
+import { portfolio, music, reels, type PortfolioItem, type MusicItem, sectionNumber } from '../content';
+import Reels from './Reels';
 import NowPlaying from './NowPlaying';
 
-type View = 'video' | 'music';
+type View = 'video' | 'reels' | 'music';
 
 /* ------------------------------------------------------------------ video */
 
@@ -43,7 +44,8 @@ const VideoTile: React.FC<{ item: PortfolioItem; onOpen: () => void; featured?: 
     <div className={`overflow-hidden bg-black ${featured ? 'aspect-[16/7]' : 'aspect-video'}`}>
       {item.kind === 'youtube'
         ? <Poster id={item.src} alt={item.title} />
-        : <img src={item.src} alt={item.title} loading="lazy" className="w-full h-full object-cover" />}
+        : <img src={item.poster ?? item.src} alt={item.title} loading="lazy"
+            className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]" />}
     </div>
 
     {/* cinematic scrim — always on for the featured tile, on hover for the grid */}
@@ -70,7 +72,7 @@ const VideoTile: React.FC<{ item: PortfolioItem; onOpen: () => void; featured?: 
           <h3 className="font-display text-base font-semibold text-paper truncate">{item.title}</h3>
           <p className="text-white/45 text-sm truncate">{item.description}</p>
         </div>
-        <span className="shrink-0 text-[10px] tracking-widest2 uppercase text-white/35">{item.category}</span>
+        <span className="shrink-0 text-[10px] tracking-widest2 uppercase text-white/35">{item.tag ?? item.category}</span>
       </div>
     )}
   </button>
@@ -108,13 +110,18 @@ const Lightbox: React.FC<{ item: PortfolioItem; onClose: () => void }> = ({ item
 
       <div onClick={(e) => e.stopPropagation()} className="w-full max-w-6xl">
         <div className="aspect-video bg-black border border-white/10">
-          <iframe
-            className="w-full h-full"
-            src={`https://www.youtube-nocookie.com/embed/${item.src}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-            title={item.title}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
+          {item.kind === 'youtube' ? (
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube-nocookie.com/embed/${item.src}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              title={item.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          ) : (
+            <video className="w-full h-full" src={item.src} poster={item.poster}
+              controls autoPlay playsInline />
+          )}
         </div>
         <div className="flex items-baseline justify-between gap-6 pt-5">
           <div>
@@ -271,37 +278,78 @@ const Portfolio: React.FC = () => {
   }, [lightbox]);
 
   const track = current === null ? null : playable[current];
-  const heading = view === 'video' ? 'The reel speaks for itself.' : 'The catalog speaks for itself.';
-  const featured = portfolio[0];
-  const rest = portfolio.slice(1);
+
+  // Tabs are by FORMAT. Work types (commercials, event recaps) filter INSIDE the Video tab
+  // rather than adding tabs — five tabs across the top is a menu, not a portfolio.
+  const TABS: { id: View; label: string; show: boolean }[] = [
+    { id: 'video', label: 'Video', show: hasVideo },
+    { id: 'reels', label: 'Reels', show: reels.length > 0 },
+    { id: 'music', label: 'Music', show: hasMusic },
+  ].filter((t) => t.show) as { id: View; label: string; show: boolean }[];
+
+  const tags = [...new Set(portfolio.map((p) => p.tag).filter(Boolean))] as string[];
+  const [tag, setTag] = useState<string | null>(null);
+  const films = tag ? portfolio.filter((p) => p.tag === tag) : portfolio;
+
+  const HEADINGS: Record<View, string> = {
+    video: 'The reel speaks for itself.',
+    reels: 'Short-form, built to stop the scroll.',
+    music: 'The catalog speaks for itself.',
+  };
+  const COUNTS: Record<View, string> = {
+    video: `${films.length} ${films.length === 1 ? 'film' : 'films'}`,
+    reels: `${reels.length} reels`,
+    music: 'Tap a cover to listen',
+  };
+
+  const featured = films[0];
+  const rest = films.slice(1);
 
   return (
     <section id="portfolio" className={`section-padding ${track ? 'pb-40' : ''}`}>
       <div className="container-custom reveal">
         <div className="mb-12">
           <p className="eyebrow mb-6"><span className="w-8 h-px bg-champagne/60" />{sectionNumber('portfolio')} — Selected Work</p>
-          <h2 className="section-title text-4xl md:text-6xl max-w-3xl">{heading}</h2>
+          <h2 className="section-title text-4xl md:text-6xl max-w-3xl">{HEADINGS[view]}</h2>
         </div>
 
-        {hasVideo && hasMusic && (
+        {TABS.length > 1 && (
           <div className="flex items-center gap-8 border-b border-white/10 mb-12">
-            {(['video', 'music'] as View[]).map((v) => (
+            {TABS.map((t) => (
               <button
-                key={v}
-                onClick={() => setView(v)}
+                key={t.id}
+                onClick={() => setView(t.id)}
                 className={`relative -mb-px pb-4 font-display text-lg md:text-xl font-semibold tracking-tight
-                            transition-colors duration-500 ${view === v ? 'text-paper' : 'text-white/35 hover:text-white/70'}`}
+                            transition-colors duration-500 ${view === t.id ? 'text-paper' : 'text-white/35 hover:text-white/70'}`}
               >
-                {v === 'video' ? 'Video' : 'Music'}
+                {t.label}
                 <span
                   className={`absolute left-0 bottom-0 h-px bg-champagne transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-                              ${view === v ? 'w-full' : 'w-0'}`}
+                              ${view === t.id ? 'w-full' : 'w-0'}`}
                 />
               </button>
             ))}
             <span className="ml-auto pb-4 text-[10px] tracking-widest2 uppercase text-white/30 hidden sm:block">
-              {view === 'video' ? `${portfolio.length} films` : 'Tap a cover to listen'}
+              {COUNTS[view]}
             </span>
+          </div>
+        )}
+
+        {/* work-type filter — only earns its place once there is more than one type */}
+        {view === 'video' && tags.length > 1 && (
+          <div className="flex flex-wrap gap-2 mb-10">
+            {[null, ...tags].map((t) => (
+              <button
+                key={t ?? 'all'}
+                onClick={() => setTag(t)}
+                className={`px-4 py-1.5 rounded-full text-[11px] tracking-widest2 uppercase border transition-all duration-300
+                            ${tag === t
+                              ? 'border-champagne/60 text-paper bg-white/[0.04]'
+                              : 'border-white/15 text-white/45 hover:text-white/80 hover:border-white/30'}`}
+              >
+                {t ?? 'All'}
+              </button>
+            ))}
           </div>
         )}
 
@@ -314,6 +362,8 @@ const Portfolio: React.FC = () => {
               ))}
             </div>
           </div>
+        ) : view === 'reels' ? (
+          <Reels items={reels} />
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-px bg-white/10 border border-white/10">
             {playable.map((item, idx) => (

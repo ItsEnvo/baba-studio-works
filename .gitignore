@@ -90,3 +90,7 @@ temp/
 build/
 out/
 .vercel
+
+public/reels/_src/*.mp4
+public/reels/_src/*.mov
+public/reels/_src/*.m4v

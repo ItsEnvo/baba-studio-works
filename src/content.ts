@@ -58,14 +58,37 @@ export const equipment = {
 export type PortfolioItem = {
   title: string;
   category: 'recording' | 'mixing' | 'video' | 'photography';
-  kind: 'youtube' | 'spotify' | 'image';
+  /** 'youtube' streams from YouTube; 'file' plays a self-hosted MP4 in /public. */
+  kind: 'youtube' | 'file' | 'spotify' | 'image';
+  /** YouTube video ID, a spotify embed URL, or a /public path for 'file'. */
   src: string;
   description: string;
+  /** Required for kind 'file' — the still shown before playback. */
+  poster?: string;
+  /** Shown on the tile and drives the filter row inside the Video tab.
+   *  The filter only appears once more than one tag is in use. */
+  tag?: 'Music Video' | 'Commercial' | 'Event Recap' | 'Brand';
   placeholder?: boolean;
 };
 
-// Real music videos shot/produced with The Baba artists (pulled from itsenvo portfolio).
-// `src` = YouTube video ID. Remove any you don't want shown.
+// ---- REELS (vertical) ----
+// Self-hosted so they can autoplay muted in view — an Instagram or YouTube embed cannot.
+// Drop 1080x1920 MP4s in public/reels/ and run: node scripts/prep-reels.mjs
+// That compresses them for web and writes a poster frame; then list them here.
+// Leave this empty and the Reels tab hides itself entirely.
+export type ReelItem = {
+  title: string;
+  /** Who it was made for — artist, brand, or event. */
+  client: string;
+  /** /reels/<name>.mp4 */
+  src: string;
+  /** /reels/<name>.jpg — first frame, shown until the video is ready. */
+  poster: string;
+};
+
+export const reels: ReelItem[] = [
+];
+
 export const portfolio: PortfolioItem[] = [
   // portfolio[0] is the full-bleed FEATURED tile in the Work section — newest work leads.
   { title: 'CREDIT', category: 'video', kind: 'youtube', src: '7g9p1Agajyo', description: 'Vizo South' },

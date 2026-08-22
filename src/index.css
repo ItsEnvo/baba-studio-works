@@ -97,6 +97,13 @@
     transform: translateY(0);
   }
 
+  /* Horizontal rails scroll without a visible bar — the snap points are the affordance */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+
   /* Equalizer bars on the currently-playing cover */
   @keyframes eq {
     from { transform: scaleY(0.25); }
